@@ -316,7 +316,7 @@
   function onAudioProblem() {
     if (audioFinished) return;
     audioFinished = true;
-    revealBeginButton("Não foi possível reproduzir o áudio (confirma se existe audio/introducao.mp3). Podes continuar na mesma.");
+    revealBeginButton("Não foi possível reproduzir o áudio (confirma se existe introducao.mp3). Podes continuar na mesma.");
   }
 
   function skipAudio() {
