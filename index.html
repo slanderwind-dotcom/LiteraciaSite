@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo das Escolhas – Sustentabilidade 360°</title>
+  <meta name="description" content="Jogo interativo sobre sustentabilidade: decide, confirma e descobre o impacto das tuas escolhas nos pilares ambiental, económico e social.">
+
+  <!-- Tipos de letra (opcional): se não houver internet, o site usa tipos de letra do sistema -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="dark">
+
+  <a class="skip-link" href="#main">Saltar para o conteúdo</a>
+
+  <!-- Aviso para o professor: erros no ficheiro questions.js -->
+  <div id="config-alert" class="config-alert" role="alert" hidden></div>
+
+  <!-- ===================== BARRA SUPERIOR (só durante o teste) ===================== -->
+  <header class="topbar" id="topbar" hidden>
+    <div class="topbar__inner">
+      <p class="topbar__brand">Jogo das Escolhas</p>
+
+      <div class="topbar__progress" aria-live="polite">
+        <div class="progress" role="progressbar" aria-label="Progresso do teste"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress">
+          <div class="progress__fill" id="progress-fill"></div>
+        </div>
+        <p class="topbar__label" id="progress-label">&nbsp;</p>
+      </div>
+
+      <div class="topbar__actions">
+        <p class="topbar__points"><span id="topbar-points">0</span> pontos</p>
+        <button type="button" class="btn btn--ghost btn--sm" id="btn-restart-top">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+          Reiniciar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== 1. PÁGINA INICIAL ===================== -->
+    <section class="screen screen--dark is-active" id="screen-home" aria-labelledby="home-title">
+      <div class="home">
+
+        <div class="home__copy">
+          <h1 class="display" id="home-title" tabindex="-1">JOGO DAS ESCOLHAS</h1>
+          <p class="home__subtitle">As tuas decisões fazem a diferença</p>
+          <p class="home__lead">
+            Vais encontrar situações do dia a dia e decidir qual é a escolha mais sustentável.
+            Cada resposta mostra o impacto da tua decisão nos três pilares da sustentabilidade:
+            o ambiente, a economia e a sociedade.
+          </p>
+
+          <!-- Botão inicial -->
+          <div id="home-start-block">
+            <button type="button" class="btn btn--lime btn--xl" id="btn-start">INICIAR EXPERIÊNCIA</button>
+          </div>
+
+          <!-- Palco do áudio: aparece depois de carregar em INICIAR EXPERIÊNCIA -->
+          <div class="audio-stage" id="audio-stage" hidden>
+            <div class="audio-stage__row">
+              <div class="equalizer" id="equalizer" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <p class="audio-stage__status" id="audio-status" aria-live="polite">A reproduzir a introdução…</p>
+
+              <button type="button" class="icon-btn" id="btn-sound" aria-pressed="false" aria-label="Desativar o som" title="Ativar/desativar o som">
+                <svg class="icon icon--sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+                <svg class="icon icon--sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>
+              </button>
+            </div>
+
+            <div class="audio-bar" aria-hidden="true"><div class="audio-bar__fill" id="audio-bar-fill"></div></div>
+
+            <div class="audio-stage__footer">
+              <button type="button" class="link-btn" id="btn-skip-audio">Saltar áudio</button>
+            </div>
+
+            <!-- Aparece automaticamente quando o áudio termina -->
+            <button type="button" class="btn btn--lime btn--xl btn--reveal" id="btn-begin-test" hidden>COMEÇAR TESTE</button>
+          </div>
+        </div>
+
+        <!-- Ilustração: três círculos que se sobrepõem = três pilares -->
+        <div class="venn" aria-hidden="true">
+          <svg viewBox="0 0 440 440" role="img" focusable="false">
+            <g class="venn__circle venn__circle--env">
+              <circle cx="220" cy="150" r="115"/>
+            </g>
+            <g class="venn__circle venn__circle--eco">
+              <circle cx="152" cy="268" r="115"/>
+            </g>
+            <g class="venn__circle venn__circle--soc">
+              <circle cx="288" cy="268" r="115"/>
+            </g>
+            <g class="venn__labels">
+              <text x="220" y="92"  text-anchor="middle">Ambiental</text>
+              <text x="108" y="316" text-anchor="middle">Económico</text>
+              <text x="332" y="316" text-anchor="middle">Social</text>
+            </g>
+            <g class="venn__core">
+              <circle cx="220" cy="228" r="44"/>
+              <text x="220" y="238" text-anchor="middle">360°</text>
+            </g>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ===================== 2. INÍCIO DE SECÇÃO ===================== -->
+    <section class="screen screen--light" id="screen-section-intro" aria-labelledby="si-title">
+      <div class="container container--narrow">
+        <article class="panel section-intro" id="si-panel">
+          <div class="pillar-badge" id="si-badge" aria-hidden="true"></div>
+          <p class="section-intro__step" id="si-step"></p>
+          <h2 class="h-xl" id="si-title" tabindex="-1"></h2>
+          <p class="section-intro__desc" id="si-desc"></p>
+          <ul class="chips" id="si-topics"></ul>
+          <p class="section-intro__meta" id="si-meta"></p>
+          <button type="button" class="btn btn--forest btn--xl" id="btn-section-start">COMEÇAR SECÇÃO</button>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ===================== 3. PERGUNTA ===================== -->
+    <section class="screen screen--light" id="screen-question" aria-labelledby="q-text">
+      <div class="container container--narrow">
+        <article class="panel question" id="q-panel">
+
+          <div class="question__meta">
+            <span class="tag" id="q-pillar-tag"></span>
+            <span class="question__count" id="q-count"></span>
+          </div>
+
+          <h2 class="question__text" id="q-text" tabindex="-1"></h2>
+
+          <fieldset class="options" id="q-options">
+            <legend class="sr-only">Escolhe uma resposta</legend>
+          </fieldset>
+
+          <div class="question__actions">
+            <button type="button" class="btn btn--forest btn--lg" id="btn-confirm" disabled>CONFIRMAR RESPOSTA</button>
+          </div>
+
+          <!-- Feedback: só aparece depois de confirmar -->
+          <div class="feedback" id="q-feedback" hidden aria-live="polite">
+            <div class="feedback__head">
+              <span class="feedback__icon" id="fb-icon" aria-hidden="true"></span>
+              <div>
+                <p class="feedback__title" id="fb-title"></p>
+                <p class="feedback__sub" id="fb-sub"></p>
+              </div>
+            </div>
+            <p class="feedback__explain" id="fb-explain"></p>
+            <div class="impact">
+              <p class="impact__title" id="fb-impact-title"></p>
+              <p class="impact__text" id="fb-impact-text"></p>
+            </div>
+            <button type="button" class="btn btn--lime-dark btn--lg" id="btn-next">PRÓXIMA PERGUNTA</button>
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ===================== 4. FIM DE SECÇÃO ===================== -->
+    <section class="screen screen--light" id="screen-section-end" aria-labelledby="se-title">
+      <div class="container container--narrow">
+        <article class="panel section-end">
+          <p class="section-end__kicker" id="se-kicker"></p>
+          <h2 class="h-xl" id="se-title" tabindex="-1">Secção concluída</h2>
+
+          <div class="section-end__score">
+            <p class="big-number" id="se-score"></p>
+            <p class="big-number__label" id="se-score-label"></p>
+          </div>
+
+          <div class="mini-bar" aria-hidden="true"><div class="mini-bar__fill" id="se-bar"></div></div>
+          <p class="section-end__msg" id="se-msg"></p>
+
+          <button type="button" class="btn btn--forest btn--xl" id="btn-section-next"></button>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ===================== 5. RESULTADOS ===================== -->
+    <section class="screen screen--light" id="screen-results" aria-labelledby="r-title">
+
+      <div class="results-hero">
+        <div class="container results-hero__inner">
+          <div class="ring" aria-hidden="true">
+            <svg viewBox="0 0 140 140">
+              <circle class="ring__track" cx="70" cy="70" r="60"/>
+              <circle class="ring__value" id="r-ring" cx="70" cy="70" r="60"/>
+            </svg>
+            <p class="ring__text"><span id="r-percent">0</span><small>%</small></p>
+          </div>
+
+          <div class="results-hero__copy">
+            <p class="results-hero__kicker">Resultado final</p>
+            <h2 class="h-xl" id="r-title" tabindex="-1">—</h2>
+            <p class="results-hero__msg" id="r-message"></p>
+
+            <dl class="totals">
+              <div><dt>Pontuação total</dt><dd><span id="r-points">0</span> / <span id="r-max">0</span></dd></div>
+              <div><dt>Respostas certas</dt><dd id="r-correct">0</dd></div>
+              <div><dt>Respostas erradas</dt><dd id="r-wrong">0</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3 class="h-md results__heading">Resultado por pilar</h3>
+        <div class="pillar-results" id="r-pillars"></div>
+
+        <div class="results__actions">
+          <button type="button" class="btn btn--forest btn--xl" id="btn-restart">JOGAR OUTRA VEZ</button>
+          <button type="button" class="btn btn--outline btn--xl" id="btn-home">VOLTAR AO INÍCIO</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Áudio de introdução. Para o substituir, basta trocar o ficheiro audio/introducao.mp3 -->
+  <audio id="intro-audio" src="audio/introducao.mp3" preload="auto"></audio>
+
+  <!-- A ordem dos scripts importa: primeiro as perguntas, depois o funcionamento -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
